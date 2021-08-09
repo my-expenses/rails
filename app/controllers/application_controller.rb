@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::API
   before_action :authorized
 
-  def encode_token(payload)
+  def encode_token(payload, expiration)
+    payload[:exp] = expiration
     JWT.encode(payload, 's3cr3t') # automatic return the value of the last executed line
   end
 
@@ -20,6 +21,10 @@ class ApplicationController < ActionController::API
         nil
       end
     end
+  end
+
+  def get_user_id
+    decoded_token ? decoded_token[0]['user_id'] : 0
   end
 
   def logged_in_user
