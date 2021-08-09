@@ -3,5 +3,10 @@ Rails.application.routes.draw do
     resources :transactions
     resources :categories
   end
+
+  scope "/users" do
+    post "/login", to: "users#login"
+    post "/register", to: "users#register"
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
