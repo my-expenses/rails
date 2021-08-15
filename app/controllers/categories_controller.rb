@@ -1,11 +1,12 @@
 class CategoriesController < ApplicationController
   def index
-    categories = Category.all
+    categories = Category.where(user_id: get_user_id)
     render json: { categories: categories }
   end
 
   def create
     category = Category.new(category_params)
+    category.user_id = get_user_id
     if category.save
       render json: {
         status: :created,
@@ -17,8 +18,10 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    category = Category.find(params[:id])
-    if category.update(category_params)
+    category = Category.where(ID: params[:id], user_id: get_user_id)
+    if category.empty?
+      render json: { status: 404 }, status: :not_found
+    elsif category.update(category_params)
       render json: { category: category }
     else
       render json: { status: 500 }, status: :internal_server_error
@@ -26,8 +29,10 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    category = Category.find(params[:id])
-    if category.destroy
+    category = Category.where(ID: params[:id], user_id: get_user_id)
+    if category.empty?
+      render json: { status: 404 }, status: :not_found
+    elsif category.destroy(params[:id])
       render json: { message: "success" }
     else
       render json: { status: 500 }, status: :internal_server_error

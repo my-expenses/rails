@@ -4,6 +4,7 @@ class Transaction < ApplicationRecord
   validates :date, presence: true
 
   belongs_to :category, optional: true
+  belongs_to :user
 
   before_save :handle_category_id
 
