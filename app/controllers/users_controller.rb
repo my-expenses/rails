@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     if user && user.authenticate(params[:password])
       token = encode_token({user_id: user.id}, 15.minutes.from_now.to_i) # 15 minutes
       refresh_token = encode_token({user_id: user.id}, 10.days.from_now.to_i) # 10 days
-      render json: {accessToken: token, refresh_token: refresh_token, message: "success"}
+      render json: {accessToken: token, refreshToken: refresh_token, message: "success"}
     else
       render json: {message: "Invalid credentials", status: 401}, status: :unauthorized
     end
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     end
     token = encode_token({user_id: get_user_id}, 15.minutes.from_now.to_i) # 15 minutes
     refresh_token = encode_token({user_id: get_user_id}, 10.days.from_now.to_i)
-    render json: {accessToken: token, refresh_token: refresh_token, message: "success"}
+    render json: {accessToken: token, refreshToken: refresh_token, message: "success"}
   end
 
   private
