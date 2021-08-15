@@ -8,7 +8,7 @@ class TransactionsController < ApplicationController
         transaction: transaction
       }, status: :created
     else
-      render json: {status: 500, message: transaction.errors.full_messages}, status: :internal_server_error
+      render json: { status: 500, message: transaction.errors.full_messages }, status: :internal_server_error
     end
   end
 
@@ -30,13 +30,22 @@ class TransactionsController < ApplicationController
   def destroy
     transaction = Transaction.find(params[:id])
     if transaction.destroy
-      render json: {message: "success"}
+      render json: { message: "success" }
     else
       render json: { status: 500, message: transaction.errors.full_messages }, status: :internal_server_error
     end
   end
 
+  def grouped
+    records_array = Transaction
+                      .select("categoryID")
+                      .group("categoryID").pluck(:categoryID, Arel.sql('SUM(CASE WHEN transactionType = 1 THEN amount ELSE -amount END) AS total'))
+                      .map { |categoryID, total| { categoryID: categoryID, total: total } }
+    render json: { groupedTransactions: records_array }
+  end
+
   private
+
   def transaction_params
     params.permit(:amount, :transactionTitle, :date, :categoryID)
   end

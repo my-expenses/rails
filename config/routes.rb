@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   scope "/auth" do # to have /auth before the routes
     resources :transactions
     resources :categories
+    get "/grouped-transactions", to: "transactions#grouped"
   end
 
   scope "/users" do
