@@ -18,8 +18,8 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    category = Category.where(ID: params[:id], user_id: get_user_id)
-    if category.empty?
+    category = Category.where(ID: params[:id], user_id: get_user_id).first
+    if !category # category not found
       render json: { status: 404 }, status: :not_found
     elsif category.update(category_params)
       render json: { category: category }
