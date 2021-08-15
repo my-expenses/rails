@@ -16,8 +16,13 @@ class TransactionsController < ApplicationController
   def index
     start_of_month = DateTime.parse(params[:month]).at_beginning_of_month
     end_of_month = DateTime.parse(params[:month]).at_end_of_month
+    page = params[:page].to_i
+    limit = params[:itemsPerPage].to_i
+    offset = (page - 1) * limit
     transactions = Transaction.where(user_id: get_user_id)
                               .where(date: start_of_month..end_of_month) # between clause
+                              .offset(offset)
+                              .limit(limit)
     render json: { transactions: transactions }
   end
 
