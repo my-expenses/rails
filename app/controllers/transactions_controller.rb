@@ -8,7 +8,7 @@ class TransactionsController < ApplicationController
         transaction: transaction
       }, status: :created
     else
-      render json: {status: 500}, status: :internal_server_error
+      render json: {status: 500, message: transaction.errors.full_messages}, status: :internal_server_error
     end
   end
 
@@ -38,6 +38,6 @@ class TransactionsController < ApplicationController
 
   private
   def transaction_params
-    params.permit(:amount, :transactionTitle, :date)
+    params.permit(:amount, :transactionTitle, :date, :categoryID)
   end
 end
