@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
   def create
     transaction = Transaction.new(transaction_params)
+    transaction.transactionType = ActiveModel::Type::Boolean.new.cast(params[:type])
     if transaction.save
       render json: {
         status: :created,
@@ -18,6 +19,6 @@ class TransactionsController < ApplicationController
 
   private
   def transaction_params
-    params.permit(:amount, :title, :type, :date)
+    params.permit(:amount, :transactionTitle, :date)
   end
 end

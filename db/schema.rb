@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_09_114833) do
+ActiveRecord::Schema.define(version: 2021_08_15_131504) do
 
   create_table "categories", primary_key: "ID", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2021_08_09_114833) do
 
   create_table "transactions", primary_key: "ID", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "amount"
-    t.string "title"
-    t.boolean "type"
+    t.string "transactionTitle"
+    t.boolean "transactionType"
     t.timestamp "date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
