@@ -5,9 +5,10 @@ class Transaction < ApplicationRecord
 
   def as_json(options = {})
     super(options).merge({
+                           "title": transactionTitle,
                            "type": transactionType,
                          })
-                  .except!("transactionType") # delete transactionType key
+                  .except!("transactionType", "transactionTitle") # delete transactionType and transactionTitle keys
   end
 
   def from_json(json, include_root = nil)
