@@ -32,6 +32,10 @@ class UsersController < ApplicationController
     render json: {accessToken: token, refreshToken: refresh_token, message: "success"}
   end
 
+  def status
+    render json: {}
+  end
+
   private
   def user_params
     params.permit(:fullName, :password, :email, :password_confirmation)
